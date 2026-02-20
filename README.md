@@ -40,6 +40,32 @@ smartquotify('6\'2"')
 // → 6′2″
 ```
 
+### HTML Mode
+
+Protects tag attributes and comments from conversion. All visible text (including inside `<code>` and `<pre>`) gets smart quotes.
+
+```ts
+smartquotify('<a href="url">"click"</a>', { html: true })
+// → <a href="url">"click"</a>
+
+smartquotify('<em>"The court held . . . that"</em>', { html: true })
+// → <em>"The court held . . . that"</em>
+```
+
+### Markdown Mode
+
+Skips fenced code blocks, inline code, and link URLs. Link text still gets converted.
+
+```ts
+smartquotify('He said "hello" and `"code"` here.', { markdown: true })
+// → He said "hello" and `"code"` here.
+
+smartquotify('["click here"](http://example.com)', { markdown: true })
+// → ["click here"](http://example.com)
+```
+
+Both flags can be combined: `{ html: true, markdown: true }`.
+
 ### Input Enhancement (any framework)
 
 Attach to any `<input>`, `<textarea>`, or `contenteditable` element. Users type straight quotes, see smart quotes. No cursor jumping.
@@ -90,6 +116,8 @@ Pure string transform. Returns a new string with smart quotes.
 
 **Options:**
 - `primes` (boolean, default `true`) — Convert measurement marks to prime characters
+- `html` (boolean, default `false`) — Skip HTML tag syntax and comments; converts all visible text
+- `markdown` (boolean, default `false`) — Skip code blocks, inline code, and link URLs; converts link text
 
 ### `smartquotifyInput(element, options?)`
 
