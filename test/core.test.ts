@@ -308,4 +308,163 @@ describe('smartquotify', () => {
       expect(result).toContain(`5${PRIME}10${DPRIME}`)
     })
   })
+
+  // ── HTML mode ────────────────────────────────────────────────────────
+
+  describe('html mode', () => {
+    const opts = { html: true }
+
+    it('preserves tag attributes', () => {
+      expect(smartquotify('<a href="url">"click"</a>', opts)).toBe(
+        `<a href="url">${LDQ}click${RDQ}</a>`,
+      )
+    })
+
+    it('converts text inside <em>', () => {
+      expect(smartquotify('<em>"hello"</em>', opts)).toBe(
+        `<em>${LDQ}hello${RDQ}</em>`,
+      )
+    })
+
+    it('converts text inside <code>', () => {
+      expect(smartquotify('<code>"x"</code>', opts)).toBe(
+        `<code>${LDQ}x${RDQ}</code>`,
+      )
+    })
+
+    it('converts text inside <pre>', () => {
+      expect(smartquotify('<pre>"x"</pre>', opts)).toBe(
+        `<pre>${LDQ}x${RDQ}</pre>`,
+      )
+    })
+
+    it('skips HTML comments', () => {
+      expect(smartquotify('<!-- "x" -->', opts)).toBe('<!-- "x" -->')
+    })
+
+    it('handles mixed tags and text', () => {
+      const input = `<p>The '604 patent's <em>"claims"</em></p>`
+      const result = smartquotify(input, opts)
+      expect(result).toBe(
+        `<p>The ${RSQ}604 patent${RSQ}s <em>${LDQ}claims${RDQ}</em></p>`,
+      )
+    })
+
+    it('handles CourtListener-style blockquotes', () => {
+      const input =
+        '<blockquote><em>"The court held . . . that"</em></blockquote>'
+      const result = smartquotify(input, opts)
+      expect(result).toBe(
+        `<blockquote><em>${LDQ}The court held . . . that${RDQ}</em></blockquote>`,
+      )
+    })
+
+    it('preserves attributes with single quotes', () => {
+      expect(
+        smartquotify("<div class='test'>\"hello\"</div>", opts),
+      ).toBe(`<div class='test'>${LDQ}hello${RDQ}</div>`)
+    })
+
+    it('handles self-closing tags', () => {
+      expect(smartquotify('"before"<br/>"after"', opts)).toBe(
+        `${LDQ}before${RDQ}<br/>${LDQ}after${RDQ}`,
+      )
+    })
+
+    it('handles tags with multiple attributes', () => {
+      expect(
+        smartquotify(
+          '<a href="url" title="a \'title\'">don\'t</a>',
+          opts,
+        ),
+      ).toBe(`<a href="url" title="a 'title'">don${RSQ}t</a>`)
+    })
+  })
+
+  // ── Markdown mode ──────────────────────────────────────────────────
+
+  describe('markdown mode', () => {
+    const opts = { markdown: true }
+
+    it('skips inline code', () => {
+      expect(smartquotify('`"code"`', opts)).toBe('`"code"`')
+    })
+
+    it('skips fenced code blocks', () => {
+      const input = '```\n"code"\n```'
+      expect(smartquotify(input, opts)).toBe('```\n"code"\n```')
+    })
+
+    it('skips tilde fenced code blocks', () => {
+      const input = '~~~\n"code"\n~~~'
+      expect(smartquotify(input, opts)).toBe('~~~\n"code"\n~~~')
+    })
+
+    it('preserves link URL but converts link text', () => {
+      expect(
+        smartquotify('["click here"](http://example.com)', opts),
+      ).toBe(`[${LDQ}click here${RDQ}](http://example.com)`)
+    })
+
+    it('preserves image URL but converts alt text', () => {
+      expect(
+        smartquotify('!["alt text"](http://example.com/img.png)', opts),
+      ).toBe(`![${LDQ}alt text${RDQ}](http://example.com/img.png)`)
+    })
+
+    it('skips autolinks', () => {
+      expect(smartquotify('<https://example.com>', opts)).toBe(
+        '<https://example.com>',
+      )
+    })
+
+    it('converts normal text', () => {
+      expect(smartquotify('"hello"', opts)).toBe(`${LDQ}hello${RDQ}`)
+    })
+
+    it('handles mixed inline code and text', () => {
+      const input = 'He said "hello" and `"code"` here.'
+      const result = smartquotify(input, opts)
+      expect(result).toBe(
+        `He said ${LDQ}hello${RDQ} and \`"code"\` here.`,
+      )
+    })
+
+    it('handles fenced block with language tag', () => {
+      const input = '```js\nconst x = "hello"\n```'
+      expect(smartquotify(input, opts)).toBe(
+        '```js\nconst x = "hello"\n```',
+      )
+    })
+  })
+
+  // ── Combined mode ──────────────────────────────────────────────────
+
+  describe('combined html + markdown mode', () => {
+    const opts = { html: true, markdown: true }
+
+    it('skips inline code and preserves HTML attributes', () => {
+      const input = '<a href="url">`"code"` and "text"</a>'
+      const result = smartquotify(input, opts)
+      expect(result).toBe(
+        `<a href="url">\`"code"\` and ${LDQ}text${RDQ}</a>`,
+      )
+    })
+
+    it('handles Markdown inside HTML content', () => {
+      const input = '<p>See ["this link"](http://example.com) for details.</p>'
+      const result = smartquotify(input, opts)
+      expect(result).toBe(
+        `<p>See [${LDQ}this link${RDQ}](http://example.com) for details.</p>`,
+      )
+    })
+
+    it('is idempotent with flags', () => {
+      const input =
+        '<p>"Don\'t stop" and `"code"` and ["link"](http://url)</p>'
+      const once = smartquotify(input, opts)
+      const twice = smartquotify(once, opts)
+      expect(twice).toBe(once)
+    })
+  })
 })
