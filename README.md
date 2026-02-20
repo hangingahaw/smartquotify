@@ -138,4 +138,4 @@ Memoized display component. Props:
 
 ## License
 
-MIT
+Apache-2.0
