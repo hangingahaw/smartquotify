@@ -75,12 +75,12 @@ function Response({ text }: { text: string }) {
 
 This library is specifically designed for legal text. It correctly handles patterns that general-purpose smart quote libraries get wrong:
 
-- **Patent shorthand**: `the '604 patent` → apostrophe, not opening quote
-- **Contract defined terms**: `(the "Seller")` → correct open/close after parens
-- **Em dash context**: `the court—"in its discretion"—ruled` → correct open/close
-- **Legal ellipses**: `"The court held . . . that"` → quotes preserved across spaced periods
-- **Bracketed edits**: `"[T]he defendant argued"` → opening quote before bracket
-- **Measurements in evidence**: `the 5'10" suspect` → prime marks, not curly quotes
+- **Patent shorthand**: `the '604 patent` → `the ’604 patent`
+- **Contract defined terms**: `(the "Seller")` → `(the “Seller”)`
+- **Em dash context**: `the court—"in its discretion"—ruled` → `the court—“in its discretion”—ruled`
+- **Legal ellipses**: `"The court held . . . that"` → `“The court held . . . that”`
+- **Bracketed edits**: `"[T]he defendant argued"` → `“[T]he defendant argued”`
+- **Measurements in evidence**: `the 5'10" suspect` → `the 5′10″ suspect`
 
 ## API
 
