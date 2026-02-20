@@ -1,0 +1,75 @@
+{
+  "name": "smartquotify",
+  "version": "1.0.0",
+  "description": "Convert straight quotes to smart/curly quotes — built for legal text, works everywhere",
+  "author": "Haihang Wang (hangingahaw)",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/hangingahaw/smartquotify.git"
+  },
+  "keywords": [
+    "smart-quotes",
+    "curly-quotes",
+    "typography",
+    "legal",
+    "quotes",
+    "apostrophe",
+    "react",
+    "typesetting"
+  ],
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      },
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
+      }
+    },
+    "./react": {
+      "import": {
+        "types": "./dist/react/index.d.ts",
+        "default": "./dist/react/index.js"
+      },
+      "require": {
+        "types": "./dist/react/index.d.cts",
+        "default": "./dist/react/index.cjs"
+      }
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "sideEffects": false,
+  "scripts": {
+    "build": "tsup",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "typecheck": "tsc --noEmit",
+    "prepublishOnly": "npm run build"
+  },
+  "devDependencies": {
+    "tsup": "^8.0.0",
+    "typescript": "^5.4.0",
+    "vitest": "^2.0.0",
+    "react": "^19.0.0",
+    "@types/react": "^19.0.0",
+    "@testing-library/react": "^16.0.0",
+    "jsdom": "^25.0.0"
+  },
+  "peerDependencies": {
+    "react": ">=17.0.0"
+  },
+  "peerDependenciesMeta": {
+    "react": {
+      "optional": true
+    }
+  }
+}
