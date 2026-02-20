@@ -14,14 +14,14 @@ npm install smartquotify
 
 | Input | Output | Rule |
 |-------|--------|------|
-| `"hello"` | `\u201Chello\u201D` | Double quotes |
-| `'world'` | `\u2018world\u2019` | Single quotes |
-| `don't` | `don\u2019t` | Apostrophes |
-| `'90s` | `\u201990s` | Abbreviated years |
-| `the '604 patent` | `the \u2019604 patent` | Patent shorthand |
-| `6'5"` | `6\u20325\u2033` | Prime marks |
-| `O'Brien` | `O\u2019Brien` | Names |
-| `(the "Seller")` | `(the \u201CSeller\u201D)` | Contract terms |
+| `"hello"` | `“hello”` | Double quotes |
+| `'world'` | `‘world’` | Single quotes |
+| `don't` | `don’t` | Apostrophes |
+| `'90s` | `’90s` | Abbreviated years |
+| `the '604 patent` | `the ’604 patent` | Patent shorthand |
+| `6'5"` | `6′5″` | Prime marks |
+| `O'Brien` | `O’Brien` | Names |
+| `(the "Seller")` | `(the “Seller”)` | Contract terms |
 
 ## Usage
 
@@ -31,13 +31,13 @@ npm install smartquotify
 import { smartquotify } from 'smartquotify'
 
 smartquotify('"Don\'t stop"')
-// → \u201CDon\u2019t stop\u201D
+// → “Don’t stop”
 
 smartquotify('the \'604 patent')
-// → the \u2019604 patent
+// → the ’604 patent
 
 smartquotify('6\'2"')
-// → 6\u20322\u2033
+// → 6′2″
 ```
 
 ### Input Enhancement (any framework)
