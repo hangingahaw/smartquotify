@@ -14,14 +14,14 @@ npm install smartquotify
 
 | Input | Output | Rule |
 |-------|--------|------|
-| `"hello"` | \u201Chello\u201D | Double quotes |
-| `'world'` | \u2018world\u2019 | Single quotes |
-| `don't` | don\u2019t | Apostrophes |
-| `'90s` | \u201990s | Abbreviated years |
-| `the '604 patent` | the \u2019604 patent | Patent shorthand |
-| `6'5"` | 6\u20325\u2033 | Prime marks |
-| `O'Brien` | O\u2019Brien | Names |
-| `(the "Seller")` | (the \u201CSeller\u201D) | Contract terms |
+| `"hello"` | `\u201Chello\u201D` | Double quotes |
+| `'world'` | `\u2018world\u2019` | Single quotes |
+| `don't` | `don\u2019t` | Apostrophes |
+| `'90s` | `\u201990s` | Abbreviated years |
+| `the '604 patent` | `the \u2019604 patent` | Patent shorthand |
+| `6'5"` | `6\u20325\u2033` | Prime marks |
+| `O'Brien` | `O\u2019Brien` | Names |
+| `(the "Seller")` | `(the \u201CSeller\u201D)` | Contract terms |
 
 ## Usage
 
@@ -31,13 +31,13 @@ npm install smartquotify
 import { smartquotify } from 'smartquotify'
 
 smartquotify('"Don\'t stop"')
-// \u2192 \u201CDon\u2019t stop\u201D
+// → \u201CDon\u2019t stop\u201D
 
 smartquotify('the \'604 patent')
-// \u2192 the \u2019604 patent
+// → the \u2019604 patent
 
 smartquotify('6\'2"')
-// \u2192 6\u20322\u2033
+// → 6\u20322\u2033
 ```
 
 ### Input Enhancement (any framework)
@@ -75,12 +75,12 @@ function Response({ text }: { text: string }) {
 
 This library is specifically designed for legal text. It correctly handles patterns that general-purpose smart quote libraries get wrong:
 
-- **Patent shorthand**: `the '604 patent` \u2192 apostrophe, not opening quote
-- **Contract defined terms**: `(the "Seller")` \u2192 correct open/close after parens
-- **Em dash context**: `the court\u2014"in its discretion"\u2014ruled` \u2192 correct open/close
-- **Legal ellipses**: `"The court held . . . that"` \u2192 quotes preserved across spaced periods
-- **Bracketed edits**: `"[T]he defendant argued"` \u2192 opening quote before bracket
-- **Measurements in evidence**: `the 5'10" suspect` \u2192 prime marks, not curly quotes
+- **Patent shorthand**: `the '604 patent` → apostrophe, not opening quote
+- **Contract defined terms**: `(the "Seller")` → correct open/close after parens
+- **Em dash context**: `the court—"in its discretion"—ruled` → correct open/close
+- **Legal ellipses**: `"The court held . . . that"` → quotes preserved across spaced periods
+- **Bracketed edits**: `"[T]he defendant argued"` → opening quote before bracket
+- **Measurements in evidence**: `the 5'10" suspect` → prime marks, not curly quotes
 
 ## API
 
@@ -89,7 +89,7 @@ This library is specifically designed for legal text. It correctly handles patte
 Pure string transform. Returns a new string with smart quotes.
 
 **Options:**
-- `primes` (boolean, default `true`) \u2014 Convert measurement marks to prime characters
+- `primes` (boolean, default `true`) — Convert measurement marks to prime characters
 
 ### `smartquotifyInput(element, options?)`
 
@@ -104,9 +104,9 @@ Hook for controlled inputs. Returns `{ value, onChange, ref }`.
 ### `<SmartText>` (React)
 
 Memoized display component. Props:
-- `as` \u2014 HTML element to render (default: `'span'`)
-- `options` \u2014 smartquotify options
-- `children` \u2014 string to convert
+- `as` — HTML element to render (default: `'span'`)
+- `options` — smartquotify options
+- `children` — string to convert
 
 ## License
 
