@@ -23,9 +23,11 @@ export const rules: Rule[] = [
   // digit + ' + digit + " (feet and inches: 6'2")
   [/(\d)'(\d+)"/g, `$1${PRIME}$2${DPRIME}`],
   // digit + ' (feet only: 100')
-  [/(\d)'/g, `$1${PRIME}`],
+  // Negative lookbehind: skip number ranges like 10-20' where ' is a closing quote, not feet
+  [/(\d)'(?<![-\u2013\u2014]\d+')/g, `$1${PRIME}`],
   // digit + " (inches only, standalone: 12")
-  [/(\d)"/g, `$1${DPRIME}`],
+  // Negative lookbehind: skip number ranges like 10-20" where " is a closing quote, not inches
+  [/(\d)"(?<![-\u2013\u2014]\d+")/g, `$1${DPRIME}`],
 
   // ── LEADING APOSTROPHES (must come before generic single-quote rules) ──
   // Patent/year shorthand: space/start + ' + digits (the '604 patent, the '90s, class of '92)

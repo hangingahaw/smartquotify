@@ -155,6 +155,13 @@ describe('smartquotify', () => {
       expect(result).not.toContain(PRIME)
       expect(result).not.toContain(DPRIME)
     })
+
+    it('does not convert closing quote after number range to prime', () => {
+      expect(smartquotify('"10-20"')).toBe(`${LDQ}10-20${RDQ}`)
+      expect(smartquotify('is "10-20" a range')).toBe(
+        `is ${LDQ}10-20${RDQ} a range`,
+      )
+    })
   })
 
   // ── Contract defined terms ───────────────────────────────────────────
