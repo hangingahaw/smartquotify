@@ -9,7 +9,7 @@ Lawyers hate straight quotes, but LLMs and most legal tech output them everywher
 
 ## Install
 
-```bash
+```sh
 npm install smartquotify
 ```
 
@@ -138,6 +138,25 @@ Memoized display component. Props:
 - `as` — HTML element to render (default: `'span'`)
 - `options` — smartquotify options
 - `children` — string to convert
+
+## Design decisions
+
+**Deterministic, no LLM.** Smart quote conversion is fully rule-based — it doesn't need a language model. Every input produces the same output, every time. This makes it safe for real-time input enhancement with zero latency and no API cost.
+
+**Legal text first.** General-purpose smart quote libraries get legal patterns wrong: patent shorthand (`'604`), contract defined terms (`"Seller"`), measurement marks in evidence (`6'2"`). smartquotify handles these correctly because it was built for legal writing from the start.
+
+**Zero dependencies.** The core library has no runtime dependencies. The React bindings use React as a peer dependency. Nothing else.
+
+**Input enhancement built in.** Most smart quote libraries only transform static strings. smartquotify also attaches to live `<input>`, `<textarea>`, and `contenteditable` elements — users type straight quotes and see smart quotes, with no cursor jumping.
+
+## Development
+
+```sh
+npm install
+npm test          # 74 tests
+npm run typecheck
+npm run build     # ESM + CJS + .d.ts
+```
 
 ## License
 
