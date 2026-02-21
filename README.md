@@ -1,5 +1,8 @@
 # smartquotify
 
+[![npm](https://img.shields.io/npm/v/smartquotify)](https://www.npmjs.com/package/smartquotify)
+[![license](https://img.shields.io/npm/l/smartquotify)](https://github.com/hangingahaw/smartquotify/blob/main/LICENSE)
+
 Convert straight quotes to smart/curly quotes. Zero dependencies. TypeScript-first. Built for legal text, works everywhere.
 
 Lawyers hate straight quotes, but LLMs and most legal tech output them everywhere. **smartquotify** fixes both display and input.
